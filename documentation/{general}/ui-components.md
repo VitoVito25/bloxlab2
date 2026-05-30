@@ -48,6 +48,8 @@ Baseado em `@radix-ui/react-slot` para suporte a `asChild`. Variantes via `class
 | `variant` | Visual | Uso |
 |-----------|--------|-----|
 | `default` | fundo amber-400, texto branco | ação primária |
+| `teal` | fundo emerald-400, texto branco | confirmação (modais) |
+| `destructive` | fundo red-400, texto branco | cancelar / ação destrutiva |
 | `outline` | borda, fundo transparente | ação secundária |
 | `ghost` | sem borda, hover sutil | ação terciária / ícone |
 | `link` | texto amber-500 sublinhado | navegação inline |
@@ -77,8 +79,8 @@ Baseado em `@radix-ui/react-slot` para suporte a `asChild`. Variantes via `class
 </Button>
 ```
 
-> [!tip] Cor base é amber
-> O design token do projeto é amber. Não criar variantes com outras cores sem aprovação explícita.
+> [!tip] Paleta aprovada
+> Design token base: amber. Variantes adicionais aprovadas: `teal` (emerald-400, confirmação em modais) e `destructive` (red-400, cancelar). Qualquer nova cor fora desta paleta requer aprovação explícita.
 
 ---
 
@@ -133,6 +135,112 @@ Container visual. `Card` define o fundo branco e arredondamento; `CardContent` d
   ...
 </CardContent>
 ```
+
+---
+
+## EditAccessModal
+
+**Arquivo:** `src/components/ui/edit-access-modal.tsx`
+
+Modal de edição de acesso. Overlay + card com select de tipo e input de dias. Dois botões: confirmar (teal) e cancelar (destructive). Estado interno do formulário.
+
+### Props
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `isOpen` | `boolean` | Controla visibilidade |
+| `onClose` | `() => void` | Callback do X |
+| `onConfirm` | `(accessType: string, accessDays: string) => void` | Callback confirmar com valores do form |
+| `onCancel` | `() => void` | Callback cancelar |
+
+### Exemplo
+
+```tsx
+<EditAccessModal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  onConfirm={(type, days) => { /* salvar */ setIsOpen(false) }}
+  onCancel={() => setIsOpen(false)}
+/>
+```
+
+---
+
+## ViewUserModal
+
+**Arquivo:** `src/components/ui/view-user-modal.tsx`
+
+Modal de visualização/edição de usuário. 6 campos: nome, instituição, cargo (select), tipo de acesso (select), tempo de acesso, e-mail. Botão "Salvar Alterações" (teal) full-width. Exporta também o tipo `TViewUserData`.
+
+### Props
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `isOpen` | `boolean` | Controla visibilidade |
+| `user` | `TViewUserData` | Dados iniciais do formulário |
+| `onClose` | `() => void` | Callback do X |
+| `onSave` | `(data: TViewUserData) => void` | Callback com dados atualizados |
+
+### TViewUserData
+
+```ts
+interface TViewUserData {
+  username: string
+  institution: string
+  role: string
+  accessType: string
+  accessTime: string
+  email: string
+}
+```
+
+### Exemplo
+
+```tsx
+<ViewUserModal
+  isOpen={isOpen}
+  user={selectedUser}
+  onClose={() => setIsOpen(false)}
+  onSave={(data) => { /* salvar */ setIsOpen(false) }}
+/>
+```
+
+---
+
+## AlertModal
+
+**Arquivo:** `src/components/ui/alert-modal.tsx`
+
+Modal de alerta reutilizável. Overlay escuro + card centralizado com título, mensagem e botão de confirmação. Fecha via X (topo-direito) ou botão de ação.
+
+### Props
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `isOpen` | `boolean` | Controla visibilidade — `false` retorna `null` |
+| `title` | `string` | Título em negrito no topo do card |
+| `message` | `string` | Texto de corpo abaixo do título |
+| `buttonMessage` | `string` | Label do botão de confirmação |
+| `onClose` | `() => void` | Callback do botão X |
+| `onConfirm` | `() => void` | Callback do botão de confirmação |
+
+### Exemplo
+
+```tsx
+const [isOpen, setIsOpen] = useState(false)
+
+<AlertModal
+  isOpen={isOpen}
+  title="Confirmar ação"
+  message="Deseja prosseguir com esta operação?"
+  buttonMessage="Confirmar"
+  onClose={() => setIsOpen(false)}
+  onConfirm={() => { /* lógica */ setIsOpen(false) }}
+/>
+```
+
+> [!tip] Uso
+> Importar de `@/components/ui/alert-modal`. Estado `isOpen` fica no componente pai via `useState`.
 
 ---
 
