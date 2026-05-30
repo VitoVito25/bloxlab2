@@ -57,12 +57,20 @@ Optou-se por renderizar o logo via HTML/CSS para evitar dependência de asset ex
 **shadcn/ui instalado manualmente (sem `npx shadcn init`)**
 O diretório já continha arquivos (vault, .git) e o CLI do shadcn cancela em diretórios não-vazios. Componentes foram criados manualmente seguindo o padrão shadcn. Ver [[project-setup]] para detalhes.
 
+**Card centralizado verticalmente com logo acima via posicionamento absoluto**
+O card é o âncora flex (`justify-center` no container). O logo usa `absolute bottom-full` relativo ao wrapper do card para flutuar acima sem participar do cálculo de centralização. Assim o card fica exato no centro vertical da viewport independente do tamanho do logo.
+
+**Links externos com `target="_blank"` e `rel="noopener noreferrer"`**
+"Conheça a BloxLab" aponta para notícia da UTFPR sobre a rede bloxberg. "Supported by BloxsBerg" aponta para `bloxberg.org`. Ambos abrem em nova aba para não tirar o usuário da app. `rel="noopener noreferrer"` previne acesso ao `window.opener` pela página de destino.
+
 ## Edge cases conhecidos
 
 - Toggle eye: ao mostrar senha, tipo do input muda para `text` — autocomplete pode interferir em alguns browsers. Comportamento aceitável por agora.
 - Botão "Cadastre-se": `type="button"` explícito para não disparar submit do form. Rota de cadastro ainda não existe.
+- Logo usa `whitespace-nowrap` para não quebrar linha em viewports estreitas — se o logo crescer, revisar.
 
 ## Relacionado
 
 - [[project-setup]] — configuração técnica do projeto (Vite, Tailwind, shadcn)
+- [[ui-components]] — Button, Input, Card usados nesta tela
 - [[coding-conventions]] — padrões de nomenclatura e estrutura

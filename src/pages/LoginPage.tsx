@@ -16,17 +16,17 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-start pt-10"
+      className="min-h-screen w-full flex flex-col items-center justify-center"
       style={{ background: 'radial-gradient(ellipse at 50% 30%, #FFCC00 0%, #FFA500 55%, #FF8000 100%)' }}
     >
-      {/* Logo */}
-      <div className="mb-8 select-none">
-        <BloxLabLogo />
-      </div>
+      {/* Card + Logo wrapper — card is the flex anchor */}
+      <div className="relative">
+        <div className="absolute bottom-full mb-6 left-1/2 -translate-x-1/2 select-none whitespace-nowrap">
+          <BloxLabLogo />
+        </div>
 
-      {/* Card */}
-      <Card className="w-full max-w-sm mx-4">
-        <CardContent className="flex flex-col gap-4">
+        <Card className="w-full max-w-sm mx-4">
+        <CardContent className="flex flex-col gap-6">
           <div className="text-center mb-2">
             <h1 className="text-2xl font-bold text-gray-900">Projeto KPI's</h1>
             <p className="text-sm text-gray-500 mt-1">Indicadores de desempenho esportivo</p>
@@ -75,19 +75,20 @@ export default function LoginPage() {
           <div className="border-t border-gray-100 pt-4 flex flex-col items-center gap-1 text-sm text-gray-500">
             <p>
               Conheça a{' '}
-              <a href="#" className="text-amber-500 font-medium hover:text-amber-600">
+              <a href="https://www.utfpr.edu.br/noticias/curitiba/utfpr-e-a-primeira-instituicao-do-brasil-a-fazer-parte-da-bloxberg-1" target="_blank" rel="noopener noreferrer" className="text-amber-500 font-medium hover:text-amber-600">
                 BloxLab
               </a>
             </p>
             <p>
               Supported by{' '}
-              <a href="#" className="text-amber-500 font-medium hover:text-amber-600">
+              <a href="https://bloxberg.org/" target="_blank" rel="noopener noreferrer" className="text-amber-500 font-medium hover:text-amber-600">
                 BloxsBerg
               </a>
             </p>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   )
 }
