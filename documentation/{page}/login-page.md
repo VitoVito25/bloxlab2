@@ -60,6 +60,12 @@ O diretório já continha arquivos (vault, .git) e o CLI do shadcn cancela em di
 **Logo + card centralizados via wrapper com largura explícita**
 O wrapper `div.relative` recebe `w-full max-w-sm px-4` — largura definida, centralizada pelo flex pai (`items-center`). O card usa `w-full` (sem `mx-4`) e o logo usa `absolute bottom-full inset-x-0 flex justify-center`: ambos referenciam o mesmo bloco contendo → mesmo centro horizontal. Sem largura explícita no wrapper, `inset-x-0` e o card tinham centros diferentes e o logo ficava desalinhado.
 
+**Gradiente linear vertical no fundo (topo claro → base laranja)**
+Background trocado de `radial-gradient` para `linear-gradient(to bottom, #FFCA58 0%, #FFB300 60%, #FF7000 100%)`. Motivo: o gradiente radial criava uma zona de laranja uniforme exatamente onde a logo é renderizada, ocultando detalhes do PNG. Com o gradiente linear, o topo da tela (onde a logo vive) recebe âmbar claro (#FFCA58), contrastando com os detalhes da logo; a base escurece progressivamente para laranja saturado (#FF7000).
+
+**Espaçamento logo → card: `mb-9`**
+Margem inferior da logo aumentada de `mb-6` para `mb-9` (de 24 px para 36 px) para dar respiração visual entre logo e card sem deslocar o conjunto do centro da tela.
+
 **Links externos com `target="_blank"` e `rel="noopener noreferrer"`**
 "Conheça a BloxLab" aponta para notícia da UTFPR sobre a rede bloxberg. "Supported by BloxsBerg" aponta para `bloxberg.org`. Ambos abrem em nova aba para não tirar o usuário da app. `rel="noopener noreferrer"` previne acesso ao `window.opener` pela página de destino.
 

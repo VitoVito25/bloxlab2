@@ -17,10 +17,10 @@ export default function LoginPage() {
   return (
     <div
       className="min-h-screen w-full flex flex-col items-center justify-center"
-      style={{ background: 'radial-gradient(ellipse at 50% 30%, #FFCC00 0%, #FFA500 55%, #FF8000 100%)' }}
+      style={{ background: 'linear-gradient(to bottom, #FFCA58 0%, #FFB300 60%, #FF7000 100%)' }}
     >
       <div className="relative w-full max-w-sm px-4">
-        <div className="absolute bottom-full mb-6 inset-x-0 flex justify-center select-none">
+        <div className="absolute bottom-full mb-9 inset-x-0 flex justify-center select-none">
           <img src="/bloxlab-logo.png" alt="BloxLab" className="h-16 w-auto max-w-none" />
         </div>
 
