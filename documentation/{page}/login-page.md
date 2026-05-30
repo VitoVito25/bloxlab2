@@ -28,6 +28,9 @@ Qualquer usuário que precise acessar o sistema — gestores de clubes, analista
 > [!info] Sem lógica de auth no frontend
 > O frontend não valida credenciais localmente nem armazena tokens diretamente. Toda lógica de autenticação vive no backend Go.
 
+> [!warning] Redirect temporário (modo teste)
+> Botão "Login" usa `useNavigate('/home')` sem validação de credenciais. Implementado para testes de navegação. Remover quando integração com API for feita.
+
 ## Componentes principais
 
 | Componente | Arquivo |
@@ -80,3 +83,5 @@ Margem inferior da logo aumentada de `mb-6` para `mb-9` (de 24 px para 36 px) pa
 - [[project-setup]] — configuração técnica do projeto (Vite, Tailwind, shadcn)
 - [[ui-components]] — Button, Input, Card usados nesta tela
 - [[coding-conventions]] — padrões de nomenclatura e estrutura
+- [[main-page]] — destino do redirect pós-login
+- [[navbar-component]] — layout pós-login (AppLayout + Navbar)

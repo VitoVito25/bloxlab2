@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -7,6 +8,7 @@ import type { TLoginForm } from '@/features/auth/types'
 import RegisterCard from '@/features/auth/components/RegisterCard'
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const [form, setForm] = useState<TLoginForm>({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [showRegister, setShowRegister] = useState(false)
@@ -65,7 +67,10 @@ export default function LoginPage() {
               </button>
             </div>
 
-            <Button className="w-full font-semibold text-white text-base mt-1">
+            <Button
+              className="w-full font-semibold text-white text-base mt-1"
+              onClick={() => navigate('/home')}
+            >
               Login
             </Button>
 

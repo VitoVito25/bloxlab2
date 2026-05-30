@@ -23,11 +23,13 @@ documentation/
 ├── {general}/                        → overviews, índices, entry points por módulo
 │   ├── vault-structure.md            → este arquivo — mapa do vault
 │   ├── project-setup.md              → stack, Tailwind v4, shadcn/ui manual, path alias
-│   └── ui-components.md              → biblioteca base: Button, Input, Card, cn() — consultar antes de criar novo componente
+│   ├── ui-components.md              → biblioteca base: Button, Input, Card, cn() — consultar antes de criar novo componente
+│   └── navbar-component.md           → Navbar lateral + AppLayout (layout pós-login)
 │
 ├── {page}/                           → documentação por tela/view do produto
 │   ├── login-page.md                 → tela de login (UI only, integração pendente)
-│   └── register-page.md              → card de cadastro (RegisterCard), toggle na LoginPage, integração pendente
+│   ├── register-page.md              → card de cadastro (RegisterCard), toggle na LoginPage, integração pendente
+│   └── main-page.md                  → tela inicial pós-login (/home), usa AppLayout + Navbar
 │
 ├── {instructions}/                          → protocolos de audit carregados por sessão (manter lean)
 │   ├── ai-best-practices.md          → contrato de comportamento do agente
