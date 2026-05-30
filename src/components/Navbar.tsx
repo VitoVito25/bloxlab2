@@ -54,12 +54,22 @@ export default function Navbar({ userName }: NavbarProps) {
       </nav>
 
       <div className="mt-6">
-        <div className="flex items-center gap-3 rounded-full border border-gray-200 px-3 py-2">
+        <NavLink
+          to="/perfil"
+          className={({ isActive }) =>
+            [
+              'flex items-center gap-3 rounded-full border px-3 py-2 transition-colors',
+              isActive
+                ? 'border-amber-400 bg-amber-50 text-gray-900'
+                : 'border-gray-200 text-gray-700 hover:border-amber-300 hover:bg-amber-50/50',
+            ].join(' ')
+          }
+        >
           <span className="flex items-center justify-center w-7 h-7 rounded-md bg-amber-400 shrink-0">
             <User size={15} className="text-white" strokeWidth={2.2} />
           </span>
-          <span className="text-sm font-medium text-gray-700 truncate">{userName}</span>
-        </div>
+          <span className="text-sm font-medium truncate">{userName}</span>
+        </NavLink>
       </div>
     </aside>
   )

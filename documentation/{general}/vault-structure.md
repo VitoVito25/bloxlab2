@@ -31,7 +31,12 @@ documentation/
 │   ├── register-page.md              → card de cadastro (RegisterCard), toggle na LoginPage, integração pendente
 │   ├── main-page.md                  → tela inicial pós-login (/home), usa AppLayout + Navbar
 │   ├── search-docs-page.md           → tela de pesquisa de documentos (/pesquisar), filtros + tabela mock + paginação
-│   └── upload-doc-page.md            → tela de envio de documentos (/enviar), upload PDF/XLSX/CSV, nome + área de arquivo
+│   ├── upload-doc-page.md            → tela de envio de documentos (/enviar), upload PDF/XLSX/CSV, nome + área de arquivo
+│   ├── manage-users-page.md          → tela de gerenciamento de usuários (/usuarios), filtros + tabela + paginação
+│   ├── access-requests-page.md      → tela de solicitações de acesso (/solicitacoes), tabela + paginação sem filtros
+│   ├── important-metrics-page.md    → tela de métricas (/metricas), grid Semanal|Total com 4 indicadores, campos para API
+│   ├── contract-data-page.md        → tela de contrato (/contrato), dados estáticos do contrato bloxberg + níveis de acesso
+│   └── profile-page.md              → tela de perfil do usuário (/perfil), editar dados pessoais + info de acesso read-only
 │
 ├── {instructions}/                          → protocolos de audit carregados por sessão (manter lean)
 │   ├── ai-best-practices.md          → contrato de comportamento do agente
