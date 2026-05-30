@@ -76,12 +76,14 @@ Registro das decisões de infraestrutura e configuração do projeto BloxLab Dat
 ```
 src/
 ├── components/
-│   └── ui/           ← Button, Input, Card (shadcn/ui)
+│   └── ui/                     ← Button, Input, Card (shadcn/ui)
 ├── features/
 │   └── auth/
-│       └── types.ts  ← TLoginForm
+│       ├── components/
+│       │   └── RegisterCard.tsx ← card de cadastro
+│       └── types.ts             ← TLoginForm, TRegisterForm
 ├── lib/
-│   └── utils.ts      ← cn()
+│   └── utils.ts                ← cn()
 ├── pages/
 │   └── LoginPage.tsx
 ├── App.tsx
@@ -103,6 +105,15 @@ resolve: { alias: { '@': path.resolve(__dirname, './src') } }
 // tsconfig.app.json
 "paths": { "@/*": ["./src/*"] }
 ```
+
+---
+
+## Convenções globais de CSS (`src/index.css`)
+
+| Regra | Motivo |
+|-------|--------|
+| `button, a { cursor: pointer }` | Tailwind não aplica `cursor-pointer` por padrão em `<button>`; regra global garante consistência em todo o sistema sem classes repetidas |
+| `@keyframes card-enter` + `.animate-card-enter` | `tailwindcss-animate` não instalado; animação de entrada do `RegisterCard` implementada com keyframe customizado |
 
 ---
 

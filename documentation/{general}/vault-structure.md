@@ -26,7 +26,8 @@ documentation/
 │   └── ui-components.md              → biblioteca base: Button, Input, Card, cn() — consultar antes de criar novo componente
 │
 ├── {page}/                           → documentação por tela/view do produto
-│   └── login-page.md                 → tela de login (UI only, integração pendente)
+│   ├── login-page.md                 → tela de login (UI only, integração pendente)
+│   └── register-page.md              → card de cadastro (RegisterCard), toggle na LoginPage, integração pendente
 │
 ├── {instructions}/                          → protocolos de audit carregados por sessão (manter lean)
 │   ├── ai-best-practices.md          → contrato de comportamento do agente
