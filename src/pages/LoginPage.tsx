@@ -19,13 +19,12 @@ export default function LoginPage() {
       className="min-h-screen w-full flex flex-col items-center justify-center"
       style={{ background: 'radial-gradient(ellipse at 50% 30%, #FFCC00 0%, #FFA500 55%, #FF8000 100%)' }}
     >
-      {/* Card + Logo wrapper — card is the flex anchor */}
-      <div className="relative">
-        <div className="absolute bottom-full mb-6 left-1/2 -translate-x-1/2 select-none whitespace-nowrap">
-          <BloxLabLogo />
+      <div className="relative w-full max-w-sm px-4">
+        <div className="absolute bottom-full mb-6 inset-x-0 flex justify-center select-none">
+          <img src="/bloxlab-logo.png" alt="BloxLab" className="h-16 w-auto max-w-none" />
         </div>
 
-        <Card className="w-full max-w-sm mx-4">
+        <Card className="w-full">
         <CardContent className="flex flex-col gap-6">
           <div className="text-center mb-2">
             <h1 className="text-2xl font-bold text-gray-900">Projeto KPI's</h1>
@@ -89,28 +88,6 @@ export default function LoginPage() {
         </CardContent>
         </Card>
       </div>
-    </div>
-  )
-}
-
-function BloxLabLogo() {
-  return (
-    <div className="flex items-center gap-0 font-black text-5xl tracking-tight text-gray-900 drop-shadow-sm">
-      <span>BLO</span>
-      <span className="relative inline-block">
-        <span className="relative z-10">X</span>
-        {/* diagonal lines through the X */}
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{ transform: 'scaleX(1.1)' }}
-        >
-          <svg viewBox="0 0 40 40" width="1em" height="1em" fill="none" className="absolute inset-0 w-full h-full">
-            <line x1="4" y1="20" x2="36" y2="20" stroke="#FFCC00" strokeWidth="4" strokeLinecap="round" />
-          </svg>
-        </span>
-      </span>
-      <span>LAB</span>
     </div>
   )
 }

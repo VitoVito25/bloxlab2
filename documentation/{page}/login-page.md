@@ -33,7 +33,7 @@ Qualquer usuário que precise acessar o sistema — gestores de clubes, analista
 | Componente | Arquivo |
 |------------|---------|
 | `LoginPage` | `src/pages/LoginPage.tsx` |
-| `BloxLabLogo` | subcomponente local em `src/pages/LoginPage.tsx` |
+| logo `<img>` (`bloxlab-logo.png`) | `public/bloxlab-logo.png` |
 | `Button` (shadcn/ui) | `src/components/ui/button.tsx` |
 | `Input` (shadcn/ui) | `src/components/ui/input.tsx` |
 | `Card`, `CardContent` (shadcn/ui) | `src/components/ui/card.tsx` |
@@ -48,8 +48,8 @@ Nenhuma regra de negócio ativa nesta fase (UI only). Quando a integração for 
 
 ## Decisões técnicas
 
-**Logo BLOXLAB em código puro (sem imagem SVG externa)**
-Optou-se por renderizar o logo via HTML/CSS para evitar dependência de asset externo na fase inicial. O "X" com linha horizontal decorativa é feito com SVG inline aninhado no span. Trocar por asset real quando o logo final for definido.
+**Logo como imagem PNG real (`public/bloxlab-logo.png`)**
+Substituído o placeholder SVG/texto pelo arquivo `bloxlab-logo.png` copiado para `public/`. Vite serve `public/` na raiz — referenciado como `/bloxlab-logo.png`. Altura fixada em `h-16` (4rem) com `w-auto` para preservar proporção. Componente `BloxLabLogo` removido.
 
 **Toggle de senha com estado local**
 `useState(showPassword)` no próprio `LoginPage` — não extraído para hook porque só existe um campo de senha nesta tela.
@@ -57,8 +57,8 @@ Optou-se por renderizar o logo via HTML/CSS para evitar dependência de asset ex
 **shadcn/ui instalado manualmente (sem `npx shadcn init`)**
 O diretório já continha arquivos (vault, .git) e o CLI do shadcn cancela em diretórios não-vazios. Componentes foram criados manualmente seguindo o padrão shadcn. Ver [[project-setup]] para detalhes.
 
-**Card centralizado verticalmente com logo acima via posicionamento absoluto**
-O card é o âncora flex (`justify-center` no container). O logo usa `absolute bottom-full` relativo ao wrapper do card para flutuar acima sem participar do cálculo de centralização. Assim o card fica exato no centro vertical da viewport independente do tamanho do logo.
+**Logo + card centralizados via wrapper com largura explícita**
+O wrapper `div.relative` recebe `w-full max-w-sm px-4` — largura definida, centralizada pelo flex pai (`items-center`). O card usa `w-full` (sem `mx-4`) e o logo usa `absolute bottom-full inset-x-0 flex justify-center`: ambos referenciam o mesmo bloco contendo → mesmo centro horizontal. Sem largura explícita no wrapper, `inset-x-0` e o card tinham centros diferentes e o logo ficava desalinhado.
 
 **Links externos com `target="_blank"` e `rel="noopener noreferrer"`**
 "Conheça a BloxLab" aponta para notícia da UTFPR sobre a rede bloxberg. "Supported by BloxsBerg" aponta para `bloxberg.org`. Ambos abrem em nova aba para não tirar o usuário da app. `rel="noopener noreferrer"` previne acesso ao `window.opener` pela página de destino.
@@ -67,7 +67,7 @@ O card é o âncora flex (`justify-center` no container). O logo usa `absolute b
 
 - Toggle eye: ao mostrar senha, tipo do input muda para `text` — autocomplete pode interferir em alguns browsers. Comportamento aceitável por agora.
 - Botão "Cadastre-se": `type="button"` explícito para não disparar submit do form. Rota de cadastro ainda não existe.
-- Logo usa `whitespace-nowrap` para não quebrar linha em viewports estreitas — se o logo crescer, revisar.
+- Logo PNG: se o arquivo `public/bloxlab-logo.png` não existir em prod, o `<img>` renderiza quebrado — garantir que o asset está no bundle/deploy.
 
 ## Relacionado
 

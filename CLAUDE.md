@@ -70,6 +70,23 @@ Só então aguardar a demanda do usuário.
 - Vault desatualizado = risco de retrabalho — atualizar no Step 5 de cada sessão
 - Ver [[ai-best-practices]] para fluxo completo (ENTENDER → ESTRUTURAR → APRESENTAR → EXECUTAR → DOCUMENTAR)
 
+### Documentação obrigatória — sem exceção
+
+**Todo artefato gerado durante execução de código deve ser documentado no vault antes de reportar o tier como concluído.** Sem exceção.
+
+| Artefato criado | Onde documentar |
+|-----------------|-----------------|
+| Nova página / tela | `documentation/{page}/[nome].md` — usar template de page |
+| Novo componente `src/components/ui/` | `documentation/{general}/ui-components.md` — adicionar seção |
+| Nova feature (`src/features/[nome]/`) | `documentation/{general}/[nome]-feature.md` |
+| Novo hook compartilhado (`src/hooks/`) | documentar na nota da feature ou em `{general}/` |
+| Novo utilitário (`src/lib/` ou `src/utils/`) | documentar na nota de setup ou feature correspondente |
+| Decisão arquitetural ou de setup | `documentation/{general}/project-setup.md` |
+
+**Regra de ouro:** se criou o arquivo, criou a nota. Se atualizou componente existente, atualizou a nota. Vault e código andam juntos — vault defasado é documentação morta.
+
+> Após cada nota criada/atualizada: atualizar `documentation/{general}/vault-structure.md` com a nova entrada.
+
 ### 1. Think Before Coding
 Don't assume. Don't hide confusion. Surface tradeoffs.
 
