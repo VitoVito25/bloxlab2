@@ -29,7 +29,9 @@ documentation/
 ├── {page}/                           → documentação por tela/view do produto
 │   ├── login-page.md                 → tela de login (UI only, integração pendente)
 │   ├── register-page.md              → card de cadastro (RegisterCard), toggle na LoginPage, integração pendente
-│   └── main-page.md                  → tela inicial pós-login (/home), usa AppLayout + Navbar
+│   ├── main-page.md                  → tela inicial pós-login (/home), usa AppLayout + Navbar
+│   ├── search-docs-page.md           → tela de pesquisa de documentos (/pesquisar), filtros + tabela mock + paginação
+│   └── upload-doc-page.md            → tela de envio de documentos (/enviar), upload PDF/XLSX/CSV, nome + área de arquivo
 │
 ├── {instructions}/                          → protocolos de audit carregados por sessão (manter lean)
 │   ├── ai-best-practices.md          → contrato de comportamento do agente
