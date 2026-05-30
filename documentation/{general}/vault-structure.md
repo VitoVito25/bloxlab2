@@ -21,7 +21,11 @@ Mapa completo do vault `documentation/`. Referência para o agente ao criar nota
 ```
 documentation/
 ├── {general}/                        → overviews, índices, entry points por módulo
-│   └── vault-structure.md            → este arquivo — mapa do vault
+│   ├── vault-structure.md            → este arquivo — mapa do vault
+│   └── project-setup.md              → stack, Tailwind v4, shadcn/ui manual, path alias
+│
+├── {page}/                           → documentação por tela/view do produto
+│   └── login-page.md                 → tela de login (UI only, integração pendente)
 │
 ├── {instructions}/                          → protocolos de audit carregados por sessão (manter lean)
 │   ├── ai-best-practices.md          → contrato de comportamento do agente
