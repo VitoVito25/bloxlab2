@@ -1,6 +1,6 @@
 ---
-title: Dead Code Audit — [NOME DO PROJETO]
-date: YYYY-MM-DD
+title: Dead Code Audit — BloxLab Data Availability
+date: 2026-05-30
 tags:
   - instructions
   - audit
@@ -52,7 +52,7 @@ Funções exportadas que não aparecem em nenhuma chamada fora do próprio arqui
 Blocos de código comentados sem contexto de *por que* foram comentados. Exceção: TODOs com contexto claro.
 
 ### Dependências não utilizadas
-Pacotes em `package.json` / `requirements.txt` / `go.mod` que não aparecem no código ativo.
+Pacotes em `package.json` que não aparecem no código ativo.
 
 ---
 
@@ -69,7 +69,7 @@ Consultar e atualizar em: [[dead-code-audit-report]]
 2. **Apresentar ao usuário** → lista com análise de risco
 3. **Aguardar aprovação** → usuário confirma o que pode remover
 4. **Remover em lote pequeno** → máx. 5-10 itens por sessão
-5. **Verificar build** → build sem erros
+5. **Verificar build** → `tsc --noEmit` + `npm run build` sem erros
 6. **Sinalizar ponto de commit** → mensagem sugerida clara
 
 ---

@@ -1,6 +1,6 @@
 ---
-title: DRY Refactoring — [NOME DO PROJETO]
-date: YYYY-MM-DD
+title: DRY Refactoring — BloxLab Data Availability
+date: 2026-05-30
 tags:
   - instructions
   - refactoring
@@ -24,26 +24,26 @@ aliases:
 
 ---
 
-## Estrutura atual — atualizada em YYYY-MM-DD
-
-> **[COMO PREENCHER]**
-> Documente aqui a estrutura atual de utils, helpers e componentes compartilhados do projeto.
-> Atualize esta seção sempre que uma extração for concluída.
-> Use o formato abaixo como guia — adapte para a estrutura de pastas real do projeto.
-> Marque arquivos removidos com `~~nome.ts~~` e a data de remoção.
+## Estrutura atual — atualizada em 2026-05-30
 
 ```
-[RAIZ DO PROJETO]/
-├── [pasta de componentes compartilhados]/
+src/
+├── components/
 │   ├── [ComponenteA].tsx          ← criado YYYY-MM-DD — [propósito]
 │   └── [ComponenteB].tsx          ← criado YYYY-MM-DD — [propósito]
-├── [pasta de utils]/
+├── utils/
 │   ├── [dominio]Utils.ts          ← criado YYYY-MM-DD — [lista de exports]
 │   └── [outrodominio]Utils.ts     ← criado YYYY-MM-DD — [lista de exports]
+├── features/
+│   └── [feature]/
+│       ├── components/
+│       ├── hooks/
+│       ├── types.ts
+│       └── utils.ts
 ```
 
 **Instruções de preenchimento:**
-- Liste cada arquivo de utils/helpers com seus exports principais
+- Liste cada arquivo de utils/helpers com seus exports principais à medida que forem criados
 - Registre a data de criação para rastreabilidade
 - Documente divergências intencionais entre utils de domínios diferentes (ver seção abaixo)
 
@@ -86,4 +86,4 @@ Não execute nada sem aprovação.
 
 ---
 
-Ver também: [[dead-code-audit]] | [[coding-conventions]] | [[project-structure]]
+Ver também: [[dead-code-audit]] | [[coding-conventions]] | [[separation-of-concerns]]

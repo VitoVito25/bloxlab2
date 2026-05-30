@@ -1,6 +1,6 @@
 ---
 title: AI Best Practices — Comportamento do Agente
-date: YYYY-MM-DD
+date: 2026-05-30
 tags:
   - instructions
   - claude
@@ -16,15 +16,6 @@ aliases:
 # AI Best Practices — Comportamento do Agente
 
 > **Para Claude:** Esta nota define o contrato de comportamento para **toda nova sessão**. Leia antes de qualquer ação. Estas regras têm prioridade sobre comportamentos padrão do modelo. São inegociáveis — não há exceções sem aprovação explícita do usuário.
-
----
-
-> **[COMO PREENCHER]**
-> Este arquivo define o contrato de comportamento do agente para o projeto. As seções abaixo contêm regras genéricas que funcionam para qualquer projeto. Ajuste:
-> - **Seção 1:** O caminho já está definido como `documentation/{instructions}/`
-> - **Seção 8:** Menciona Supabase — remova ou adapte para a stack do projeto
-> - **Seção 14:** Caminhos de documentação — adapte para a estrutura de pastas do vault do projeto
-> - **Referências finais:** Atualize os wikilinks para os arquivos reais do vault
 
 ---
 
@@ -52,7 +43,7 @@ Ao receber qualquer demanda de código, antes de montar plano:
    - [[coding-conventions]] — nomenclatura, estrutura de componente, state management
    - [[project-structure]] — onde arquivos novos vão, regras por tipo
    - [[dry-refactoring]] — estrutura atual de utils, divergências intencionais
-   - [[separation-of-concerns]] — padrão container/presentational, pendências
+   - [[separation-of-concerns]] — padrão feature-based + hooks, pendências
    - [[dead-code-audit]] — o que já foi identificado como morto
    - [[performance-audit]] — otimizações pendentes e aprovadas
 3. Só então estruturar o plano — **com base nas boas práticas já estabelecidas**, não reinventando
@@ -106,14 +97,11 @@ Cada **tier** = grupo de mudanças por nível de risco/impacto, não por arquivo
 
 **Exemplo de tiers corretos:**
 ```
-Tier 1 — Criar util (src/lib/[nome]Utils.ts) — risco zero, sem dependências
+Tier 1 — Criar util (src/utils/[nome]Utils.ts) — risco zero, sem dependências
 Tier 2 — Atualizar componentes que consomem o util — risco baixo
 Tier 3 — Atualizar estado global / pages — risco médio
 Tier 4 — Remover código antigo substituído — risco: verificar imports antes
 ```
-
-> **[COMO PREENCHER]**
-> Os exemplos acima usam `src/lib/` como caminho de utils. Adapte para a estrutura de pastas do projeto.
 
 **Formato de apresentação de tier:**
 ```
@@ -207,13 +195,10 @@ Se um tier causar erros de TS / build failure inesperado:
 
 Em cada decisão técnica, pensar como um sistema de produção de grande escala:
 
-- **Novo componente:** vai precisar suportar múltiplos temas? múltiplos módulos? internacionalização?
-- **Nova função utilitária:** está em `src/lib/`? é genérica o suficiente para ser reutilizada em outro módulo?
-- **Novo estado:** qual o ciclo de vida? quem precisa acessar? vai escalar para Context ou precisa de server state?
-- **Nova query de banco:** tem políticas de acesso adequadas? performance com volume grande? índice necessário?
-
-> **[COMO PREENCHER]**
-> Adapte os bullets acima para a stack do projeto. Ex: se não usa TypeScript, remova a menção a TS. Se usa REST em vez de Supabase, troque "query Supabase" por "endpoint REST".
+- **Novo componente:** suporta múltiplos módulos de dados? precisa de internacionalização? reutilizável em outras features?
+- **Nova função utilitária:** está em `src/utils/`? genérica o suficiente para ser reutilizada em outra feature?
+- **Novo estado:** qual o ciclo de vida? quem precisa acessar? escala para Context ou precisa de cache de server state?
+- **Nova chamada REST:** tem tratamento de loading/error adequado? resposta tem tipagem completa? cache necessário?
 
 Propor a versão escalável desde o início, mesmo que a necessidade imediata seja pequena.
 
@@ -244,10 +229,7 @@ Quando a regra de negócio não está clara na documentação do vault:
 1. Identificar o ponto ambíguo
 2. Formular pergunta direta: `"Quando [condição X], o resultado deve ser [A] ou [B]?"`
 3. Aguardar resposta antes de implementar
-4. Registrar a decisão na nota de regra de negócio relevante
-
-> **[COMO PREENCHER]**
-> Substitua `{info}bussiness-rule/` pelo caminho real onde ficam as regras de negócio no vault do projeto.
+4. Registrar a decisão na nota de regra de negócio relevante em `documentation/{general}/`
 
 ---
 
@@ -283,13 +265,11 @@ Autorização de commit em sessão anterior **não** vale para sessões futuras.
 
 **Mínimo obrigatório:** o projeto compila sem erros.
 
-> **[COMO PREENCHER]**
-> Defina aqui o mínimo de testes exigido para o projeto. Exemplos:
-> - TypeScript: compile sem erros (`tsc --noEmit`)
-> - Python: `pytest` passa sem falhas
-> - Qualquer stack: `npm run build` / `make` sem erros
->
-> Recomendado para funções com lógica complexa: propor criação de unit test ao final do tier correspondente. Não bloquear aprovação por ausência de test — apenas sinalizar.
+Verificação padrão após cada tier:
+- `tsc --noEmit` — zero erros de TypeScript
+- `npm run build` — build Vite sem falhas
+
+Para funções com lógica complexa: propor criação de unit test ao final do tier correspondente. Não bloquear aprovação por ausência de test — apenas sinalizar.
 
 ---
 
@@ -299,15 +279,12 @@ Após cada sessão de mudanças, atualizar obrigatoriamente:
 
 | O que mudou | Onde documentar |
 |-------------|-----------------|
-| Nova feature / componente | Nota correspondente no vault |
-| Nova regra de negócio | Pasta de regras de negócio |
-| Decisão arquitetural | Changelog com data |
-| Novo arquivo utilitário | Nota de estrutura do projeto |
+| Nova feature / componente | Nota de feature em `documentation/{features}/` |
+| Nova regra de negócio | Nota em `documentation/{general}/` |
+| Decisão arquitetural | `documentation/{general}/` com data |
+| Novo arquivo utilitário | [[dry-refactoring]] seção "Estrutura atual" |
 | DRY / extração | `dry-refactoring.md` seção "Estrutura atual" |
 | Dead code removido | `dead-code-audit.md` seção correspondente |
-
-> **[COMO PREENCHER]**
-> Substitua as células da coluna "Onde documentar" pelos caminhos reais do vault do projeto.
 
 Seguir todas as convenções OFM da skill `obsidian-documentation`: frontmatter obrigatório, wikilinks, callouts para destaques, tags hierárquicas.
 
@@ -316,6 +293,3 @@ Seguir todas as convenções OFM da skill `obsidian-documentation`: frontmatter 
 ## Referências
 
 Ver também: [[coding-conventions]] | [[project-structure]] | [[dry-refactoring]] | [[dead-code-audit]] | [[separation-of-concerns]] | [[performance-audit]]
-
-> **[COMO PREENCHER]**
-> Atualize os wikilinks acima para os nomes reais dos arquivos no vault do projeto.

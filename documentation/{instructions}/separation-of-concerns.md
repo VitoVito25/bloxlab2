@@ -1,14 +1,14 @@
 ---
-title: Separation of Concerns — [NOME DO PROJETO]
-date: YYYY-MM-DD
+title: Separation of Concerns — BloxLab Data Availability
+date: 2026-05-30
 tags:
   - instructions
   - architecture
-  - container-presentational
+  - feature-based
   - claude
 aliases:
   - soc
-  - container-pattern
+  - feature-pattern
 ---
 
 # Separation of Concerns
@@ -38,33 +38,32 @@ aliases:
 Regras de negócio (cálculos, filtros, validações) embutidas diretamente no template/JSX ou em componentes de apresentação pura.
 
 ### 2. Chamadas de API em componentes de apresentação
-Acesso a banco/API dentro de componentes que deveriam só receber dados como props/parâmetros.
+Chamadas REST dentro de componentes que deveriam só receber dados como props/parâmetros.
 
 ### 3. Componentes container/presentational misturados
-Um componente único fazendo: fetch → transformação → renderização. Deveria ser: hook/container faz fetch+transform, componente recebe dados e renderiza.
+Um componente único fazendo: fetch → transformação → renderização. Deveria ser: hook faz fetch+transform, componente recebe dados e renderiza.
 
 ---
 
-## Padrão recomendado para este projeto
-
-> **[COMO PREENCHER]**
-> Descreva aqui o padrão arquitetural adotado no projeto. O exemplo abaixo é para React com custom hooks.
-> Adapte para a stack real: Vue (composables), Angular (services), backend (repository pattern), etc.
+## Padrão adotado — Feature-based com custom hooks
 
 ```
-[useNomeDoRecursoData()]   ← custom hook/service: fetch + parse + memoize
-    ↓ dados
-[NomeDoRecursoPage]        ← container: orquestra estado de UI (filtros, sort, expanded)
+[useTeamData()]           ← custom hook: fetch REST + parse + cache local
+    ↓ dados tipados
+[TeamsPage]               ← container: orquestra estado de UI (filtros, sort, paginação)
     ↓ props
-[NomeDoRecursoTable]       ← presentational: recebe dados, renderiza
+[TeamsTable]              ← presentational: recebe array de times, renderiza tabela
     ↓ props
-[ItemRow]                  ← presentational: um item da lista
+[TeamRow]                 ← presentational: um time, renderiza linha
+
+Mesmo padrão para qualquer recurso: Publications, Athletes, Blockchain status, etc.
 ```
 
-**Instruções de preenchimento:**
-- Substitua `[NomeDoRecurso]` pelo nome real do domínio (ex: `Pedidos`, `Usuarios`, `Produtos`)
-- Ajuste os níveis da hierarquia conforme a complexidade real do projeto
-- Documente se o projeto usa um padrão diferente (ex: só pages + components sem hooks separados)
+**Regras:**
+- Custom hooks vivem em `src/features/[nome]/hooks/` ou `src/hooks/` se compartilhados
+- Componentes presentacionais não fazem `fetch`, não conhecem a API REST
+- Lógica de transformação de dados da API → modelo de UI fica no hook, nunca no componente
+- Componentes de página (`*Page.tsx`) são os únicos que podem orquestrar múltiplos hooks
 
 ---
 
@@ -80,8 +79,8 @@ Um componente único fazendo: fetch → transformação → renderização. Deve
 Examine a estrutura dos componentes e identifique onde a separação
 entre lógica e apresentação pode ser melhorada. Procure por:
 1. Componentes de UI com regras de negócio embutidas
-2. Chamadas de API diretamente em componentes de apresentação
-3. Componentes que poderiam seguir o padrão container/presentational
+2. Chamadas REST diretamente em componentes de apresentação
+3. Componentes que poderiam seguir o padrão hook/container/presentational
 
 Sugira refatorações para melhorar a separação de responsabilidades,
 tornando os componentes mais reutilizáveis e testáveis.

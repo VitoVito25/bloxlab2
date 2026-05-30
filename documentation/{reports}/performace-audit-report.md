@@ -1,6 +1,6 @@
 ---
-title: Performance Audit — Resultados de Audit — [NOME DO PROJETO]
-date: YYYY-MM-DD
+title: Performance Audit — Resultados de Audit — BloxLab Data Availability
+date: 2026-05-30
 tags:
   - report
   - performance
@@ -37,4 +37,4 @@ aliases:
 
 ---
 
-Ver também: [[performance-audit]] | [[dry-refactoring-report]] | [[separation-of-concerns-report]]
+Ver também: [[performance-audit]] | [[dry-refactoring]] | [[separation-of-concerns-report]]

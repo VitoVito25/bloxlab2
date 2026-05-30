@@ -1,6 +1,6 @@
 ---
-title: Coding Conventions — [NOME DO PROJETO]
-date: YYYY-MM-DD
+title: Coding Conventions — BloxLab Data Availability
+date: 2026-05-30
 tags:
   - instructions
   - conventions
@@ -21,70 +21,66 @@ aliases:
 
 ---
 
-> **[COMO PREENCHER]**
-> Este arquivo define os padrões de código do projeto. Preencha cada seção com as convenções reais adotadas.
-> Seções marcadas com `[COMO PREENCHER]` precisam de adaptação para o projeto específico.
-> Após preencher, remova os blocos de instrução.
-
----
-
 ## Nomenclatura
-
-> **[COMO PREENCHER]**
-> Defina as convenções de nomenclatura do projeto. A tabela abaixo é um exemplo para projetos React/TypeScript.
-> Adapte as linhas para a linguagem e framework do projeto. Adicione ou remova tipos conforme necessário.
-> Inclua exemplos reais do projeto — não exemplos genéricos.
 
 | Tipo | Padrão | Exemplo |
 |------|--------|---------|
-| Componentes | `PascalCase` | `[ExemploDeComponente]` |
-| Hooks | `camelCase` + prefixo `use` | `use[NomeDoHook]` |
-| Arquivos de página | `PascalCase` + sufixo descritivo | `[Nome]Page.tsx` |
-| Utilitários/helpers | `camelCase` | `[nome]Utils.ts` |
-| Constantes | `UPPER_SNAKE_CASE` | `[NOME_DA_CONSTANTE]` |
+| Componentes | `PascalCase` | `TeamCard`, `PublicationForm` |
+| Hooks | `camelCase` + prefixo `use` | `useTeamData`, `useBlockchainStatus` |
+| Arquivos de página | `PascalCase` + sufixo `Page` | `TeamsPage.tsx`, `DashboardPage.tsx` |
+| Utilitários/helpers | `camelCase` + sufixo `Utils` | `blockchainUtils.ts`, `dateUtils.ts` |
+| Constantes | `UPPER_SNAKE_CASE` | `API_BASE_URL`, `MAX_RETRY_COUNT` |
+| Tipos/interfaces | `PascalCase` + prefixo `T` ou `I` | `TTeam`, `IApiResponse` |
+| Features (pastas) | `kebab-case` | `src/features/teams/`, `src/features/publications/` |
 
 ---
 
 ## Estrutura de componente
 
-> **[COMO PREENCHER]**
-> Defina a ordem de seções dentro de um componente/arquivo.
-> O exemplo abaixo é para React/TypeScript — adapte para a linguagem do projeto.
-
 ```tsx
-// 1. Imports externos
+// 1. Imports externos (react, bibliotecas)
 // 2. Imports internos (tipos, utils, hooks, componentes)
 // 3. Tipos/interfaces locais
 // 4. Constantes locais
 // 5. Componente principal
-// 6. Subcomponentes locais (se pequenos e acoplados)
+// 6. Subcomponentes locais (se pequenos e fortemente acoplados)
+```
+
+---
+
+## Estrutura de feature
+
+Cada feature em `src/features/[nome]/` segue:
+
+```
+src/features/teams/
+├── components/       ← componentes presentacionais da feature
+├── hooks/            ← custom hooks (fetch, lógica de negócio)
+├── types.ts          ← tipos da feature
+├── utils.ts          ← helpers específicos da feature
+└── index.ts          ← re-exports públicos da feature
 ```
 
 ---
 
 ## State management
 
-> **[COMO PREENCHER]**
-> Defina quando usar cada abordagem de estado. A tabela abaixo é para React — adapte para o framework do projeto.
-> Ex: se usa Redux, Zustand, Pinia, MobX etc., documente aqui quando cada um se aplica.
-
 | Situação | Padrão |
 |----------|--------|
 | Estado local simples | `useState` |
 | Estado derivado | `useMemo` — nunca `useState` redundante |
-| Efeito colateral | `useEffect` com deps explícitas |
-| Estado global do módulo | `[nome]Context` ou `[store]` |
+| Efeito colateral / fetch | `useEffect` com deps explícitas, ou custom hook |
+| Estado de UI global (ex: sidebar aberto) | `React.createContext` |
+| Dados do servidor / cache | custom hook com `useState` + `useEffect`, ou biblioteca a definir |
 
 ---
 
 ## Performance
 
-> **[COMO PREENCHER]**
-> Liste as regras de performance do projeto. Exemplos abaixo são para React — adapte conforme necessário.
-
-- Re-renders: funções em handlers → `useCallback`; objetos/arrays derivados → `useMemo`
+- Re-renders: handlers → `useCallback`; objetos/arrays derivados → `useMemo`
 - Não criar objetos inline em props que causam re-render desnecessário
-- Listas longas: verificar se precisam de virtualização
+- Listas de times/publicações com 50+ itens: avaliar virtualização
+- Chamadas REST: não disparar na cada re-render — isolar em hooks com controle de deps
 
 ---
 
@@ -124,23 +120,20 @@ Antes de criar qualquer componente, card, badge, botão, formatação ou element
 
 ## Stack técnica
 
-> **[COMO PREENCHER]**
-> Preencha a tabela abaixo com as decisões tecnológicas reais do projeto.
-> Cada linha deve ser uma decisão que pode ser contestada — registrar aqui elimina debates recorrentes.
-
 | Decisão | Padrão |
 |---------|--------|
-| Estilização | `[ex: Tailwind CSS / CSS Modules / styled-components]` |
-| Componentes base | `[ex: shadcn/ui / Material UI / Radix]` |
-| Gráficos | `[ex: Recharts / Chart.js / D3]` |
-| Animações | `[ex: framer-motion / CSS transitions]` |
-| Roteamento | `[ex: react-router-dom v6 / Next.js App Router]` |
-| Auth | `[ex: Supabase / Auth0 / NextAuth]` |
-| Build | `[ex: Vite / Next.js / Webpack]` |
-| Banco de dados | `[ex: Supabase / PostgreSQL / MongoDB]` |
-
-Ver stack completa: [[obsidian-documentation]]
+| Linguagem | TypeScript |
+| Framework | React |
+| Estilização | Tailwind CSS |
+| Componentes base | shadcn/ui (componentes em `src/components/ui/`) |
+| Gráficos | a definir |
+| Animações | CSS transitions (Tailwind) |
+| Roteamento | react-router-dom v6 |
+| Auth | gerenciado pelo backend — N/A no frontend |
+| Build | Vite |
+| Backend | Go REST API + MongoDB (externo) |
+| Blockchain | bloxberg (rede de universidades) |
 
 ---
 
-Ver também: [[dead-code-audit]] | [[dry-refactoring]] | [[project-structure]]
+Ver também: [[dead-code-audit]] | [[dry-refactoring]] | [[separation-of-concerns]]
