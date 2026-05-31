@@ -1,6 +1,6 @@
 ---
 title: Dead Code — Componentes e Módulos Não Utilizados
-date: YYYY-MM-DD
+date: 2026-05-30
 tags:
   - reports
   - dead-code
@@ -23,21 +23,27 @@ Exportados que não aparecem em nenhum `import` ativo no projeto.
 
 ## Falsos positivos conhecidos
 
-> **[COMO PREENCHER]** — Após o primeiro audit, liste aqui os arquivos confirmados como falso positivo. Exemplo: `src/components/ui/accordion.tsx` — instalado pelo shadcn, reservado para uso futuro.
-
 | Arquivo | Motivo do falso positivo |
 |---------|--------------------------|
-| `[caminho/arquivo]` | [ex: Scaffolded pelo shadcn — reservado para uso futuro] |
+| — | Nenhum identificado nesta sessão |
 
 ---
 
 ## Módulos confirmados como dead code
 
-> **[COMO PREENCHER]** — Liste os módulos confirmados para remoção após análise. Risco: Baixo = sem dependentes; Médio = dependentes internos; Alto = pode afetar bundler/entry point.
-
 | Arquivo | Exporta | Risco de remoção | Status |
 |---------|---------|-----------------|--------|
-| `[caminho/arquivo]` | `[NomeDaExportação]` | Baixo / Médio / Alto | Pendente / Removido |
+| — | Nenhum módulo inteiramente morto identificado | — | — |
+
+> Todos os componentes e hooks encontrados são importados e utilizados em pelo menos um lugar ativo. Ver [[dead-code-audit-report]] para dependências npm não utilizadas.
+
+---
+
+## Observações
+
+- `MetricField` (`ImportantMetricsPage.tsx`), `InfoCard` (`ContractDataPage.tsx`), `FileIcon` (`UploadDocPage.tsx`), `Field` (`RegisterCard.tsx`) — componentes locais não exportados, usados dentro do próprio arquivo. Não são dead code.
+- `TAuthSession` (`AuthContext.tsx`) — interface local não exportada, usada internamente. Não é dead code.
+- `TExecuteResult`, `TUseLoginResult` (`useLogin.ts`) — interfaces locais usadas no arquivo. Não são dead code.
 
 ---
 

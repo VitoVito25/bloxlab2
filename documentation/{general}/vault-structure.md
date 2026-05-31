@@ -24,7 +24,8 @@ documentation/
 │   ├── vault-structure.md            → este arquivo — mapa do vault
 │   ├── project-setup.md              → stack, Tailwind v4, shadcn/ui manual, path alias
 │   ├── ui-components.md              → biblioteca base: Button, Input, Card, cn() — consultar antes de criar novo componente
-│   └── navbar-component.md           → Navbar lateral + AppLayout (layout pós-login)
+│   ├── navbar-component.md           → Navbar lateral + AppLayout (layout pós-login)
+│   └── auth-feature.md               → AuthContext, useLogin, sessionStorage, TLoginResponse
 │
 ├── {page}/                           → documentação por tela/view do produto
 │   ├── login-page.md                 → tela de login (UI only, integração pendente)

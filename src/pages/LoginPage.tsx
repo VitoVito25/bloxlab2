@@ -4,18 +4,32 @@ import { Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
+import { AlertModal } from '@/components/ui/alert-modal'
 import type { TLoginForm } from '@/features/auth/types'
+import { useLogin } from '@/features/auth/hooks/useLogin'
+
 import RegisterCard from '@/features/auth/components/RegisterCard'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { execute, loading } = useLogin()
   const [form, setForm] = useState<TLoginForm>({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [showRegister, setShowRegister] = useState(false)
+  const [alert, setAlert] = useState<{ open: boolean; message: string }>({ open: false, message: '' })
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
+  }
+
+  async function handleLogin() {
+    const { data, errorCode } = await execute(form.email, form.password)
+    if (data) {
+      navigate('/home')
+    } else {
+      setAlert({ open: true, message: `Código do erro: ${errorCode}` })
+    }
   }
 
   return (
@@ -69,9 +83,10 @@ export default function LoginPage() {
 
             <Button
               className="w-full font-semibold text-white text-base mt-1"
-              onClick={() => navigate('/home')}
+              onClick={handleLogin}
+              disabled={loading}
             >
-              Login
+              {loading ? 'Entrando...' : 'Login'}
             </Button>
 
             <p className="text-center text-sm text-gray-500">
@@ -103,6 +118,15 @@ export default function LoginPage() {
           </Card>
         )}
       </div>
+
+      <AlertModal
+        isOpen={alert.open}
+        title="Erro de autenticação"
+        message={alert.message}
+        buttonMessage="Fechar"
+        onClose={() => setAlert({ open: false, message: '' })}
+        onConfirm={() => setAlert({ open: false, message: '' })}
+      />
     </div>
   )
 }

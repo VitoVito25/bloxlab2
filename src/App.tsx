@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from '@/features/auth/AuthContext'
 import LoginPage from '@/pages/LoginPage'
 import AppLayout from '@/components/AppLayout'
 import MainPage from '@/pages/MainPage'
@@ -13,6 +14,7 @@ import ProfilePage from '@/pages/ProfilePage'
 export default function App() {
   return (
     <BrowserRouter>
+      <AuthProvider>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route element={<AppLayout />}>
@@ -26,6 +28,7 @@ export default function App() {
           <Route path="/perfil" element={<ProfilePage />} />
         </Route>
       </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

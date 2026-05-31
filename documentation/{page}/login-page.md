@@ -22,20 +22,21 @@ Qualquer usuário que precise acessar o sistema — gestores de clubes, analista
 ## Como funciona
 
 1. Usuário preenche email e senha
-2. Clica em "Login"
-3. (Integração pendente) POST para API do backend — auth gerenciado 100% pelo backend
+2. Clica em "Login" — botão fica desabilitado e exibe "Entrando..." durante a requisição
+3. Frontend chama `POST /login` via `useLogin` hook
+4. **Sucesso:** dados da sessão salvos via `AuthContext`, redireciona para `/home`
+5. **Falha:** `AlertModal` exibe código do erro (ex: `Código do erro: 401`)
 
 > [!info] Sem lógica de auth no frontend
-> O frontend não valida credenciais localmente nem armazena tokens diretamente. Toda lógica de autenticação vive no backend Go.
-
-> [!warning] Redirect temporário (modo teste)
-> Botão "Login" usa `useNavigate('/home')` sem validação de credenciais. Implementado para testes de navegação. Remover quando integração com API for feita.
+> O frontend não valida credenciais localmente. Toda lógica de autenticação vive no backend Go. O frontend apenas armazena a resposta no `sessionStorage` via [[auth-feature]].
 
 ## Componentes principais
 
 | Componente | Arquivo |
 |------------|---------|
 | `LoginPage` | `src/pages/LoginPage.tsx` |
+| `useLogin` | `src/features/auth/hooks/useLogin.ts` |
+| `AlertModal` | `src/components/ui/alert-modal.tsx` |
 | logo `<img>` (`bloxlab-logo.png`) | `public/bloxlab-logo.png` |
 | `Button` (shadcn/ui) | `src/components/ui/button.tsx` |
 | `Input` (shadcn/ui) | `src/components/ui/input.tsx` |
@@ -43,45 +44,50 @@ Qualquer usuário que precise acessar o sistema — gestores de clubes, analista
 
 ## Fonte de dados
 
-Nenhuma por agora — formulário controlado via `useState` local. Integração com API REST do backend pendente.
+`POST ${VITE_API_BASE_URL}/login` — URL base configurada em `.env` via `VITE_API_BASE_URL`.
+Resposta armazenada em `sessionStorage` pelo [[auth-feature]].
 
 ## Regras de negócio
 
-Nenhuma regra de negócio ativa nesta fase (UI only). Quando a integração for implementada, documentar aqui.
+- Login só avança para `/home` se a API retornar status `2xx` com todos os campos: `nomeUsuario`, `instituicao`, `jwtToken`, `access`
+- Qualquer status não-`2xx` ou falha de rede abre o `AlertModal` com o código de erro
+- Sessão persiste enquanto a aba estiver aberta (sessionStorage) — logout ao fechar a aba
 
 ## Decisões técnicas
 
+**`AlertModal` para erros de login**
+Optado por `AlertModal` em vez de toast/snackbar para manter consistência com o padrão de feedback já existente na app. O componente já existia (`src/components/ui/alert-modal.tsx`) — reusado sem alteração.
+
+**`errorCode` retornado diretamente do `execute()`**
+`useLogin.execute()` retorna `{ data, errorCode }` em vez de só `data | null`. Motivo: estado React assíncrono não estaria disponível imediatamente após `await execute()` no mesmo ciclo de render. Retornar o código diretamente elimina a race condition.
+
+**`disabled={loading}` + texto dinâmico no botão**
+Botão desabilitado durante `loading` para evitar cliques múltiplos e duplo envio à API.
+
 **Logo como imagem PNG real (`public/bloxlab-logo.png`)**
-Substituído o placeholder SVG/texto pelo arquivo `bloxlab-logo.png` copiado para `public/`. Vite serve `public/` na raiz — referenciado como `/bloxlab-logo.png`. Altura fixada em `h-16` (4rem) com `w-auto` para preservar proporção. Componente `BloxLabLogo` removido.
+Substituído placeholder SVG pelo arquivo em `public/`. Vite serve `public/` na raiz — referenciado como `/bloxlab-logo.png`. Altura fixada em `h-16` com `w-auto` para preservar proporção.
 
 **Toggle de senha com estado local**
 `useState(showPassword)` no próprio `LoginPage` — não extraído para hook porque só existe um campo de senha nesta tela.
 
 **shadcn/ui instalado manualmente (sem `npx shadcn init`)**
-O diretório já continha arquivos (vault, .git) e o CLI do shadcn cancela em diretórios não-vazios. Componentes foram criados manualmente seguindo o padrão shadcn. Ver [[project-setup]] para detalhes.
+O diretório já continha arquivos e o CLI cancela em diretórios não-vazios. Ver [[project-setup]] para detalhes.
 
-**Logo + card centralizados via wrapper com largura explícita**
-O wrapper `div.relative` recebe `w-full max-w-sm px-4` — largura definida, centralizada pelo flex pai (`items-center`). O card usa `w-full` (sem `mx-4`) e o logo usa `absolute bottom-full inset-x-0 flex justify-center`: ambos referenciam o mesmo bloco contendo → mesmo centro horizontal. Sem largura explícita no wrapper, `inset-x-0` e o card tinham centros diferentes e o logo ficava desalinhado.
-
-**Gradiente linear vertical no fundo (topo claro → base laranja)**
-Background trocado de `radial-gradient` para `linear-gradient(to bottom, #FFCA58 0%, #FFB300 60%, #FF7000 100%)`. Motivo: o gradiente radial criava uma zona de laranja uniforme exatamente onde a logo é renderizada, ocultando detalhes do PNG. Com o gradiente linear, o topo da tela (onde a logo vive) recebe âmbar claro (#FFCA58), contrastando com os detalhes da logo; a base escurece progressivamente para laranja saturado (#FF7000).
-
-**Espaçamento logo → card: `mb-9`**
-Margem inferior da logo aumentada de `mb-6` para `mb-9` (de 24 px para 36 px) para dar respiração visual entre logo e card sem deslocar o conjunto do centro da tela.
-
-**Links externos com `target="_blank"` e `rel="noopener noreferrer"`**
-"Conheça a BloxLab" aponta para notícia da UTFPR sobre a rede bloxberg. "Supported by BloxsBerg" aponta para `bloxberg.org`. Ambos abrem em nova aba para não tirar o usuário da app. `rel="noopener noreferrer"` previne acesso ao `window.opener` pela página de destino.
+**Gradiente linear vertical no fundo**
+`linear-gradient(to bottom, #FFCA58 0%, #FFB300 60%, #FF7000 100%)`. Gradiente radial anterior ocultava detalhes da logo — linear deixa o topo mais claro onde a logo vive.
 
 ## Edge cases conhecidos
 
-- Toggle eye: ao mostrar senha, tipo do input muda para `text` — autocomplete pode interferir em alguns browsers. Comportamento aceitável por agora.
-- Botão "Cadastre-se": `type="button"` explícito para não disparar submit do form. Rota de cadastro ainda não existe.
-- Logo PNG: se o arquivo `public/bloxlab-logo.png` não existir em prod, o `<img>` renderiza quebrado — garantir que o asset está no bundle/deploy.
+- **CORS:** se `habit.digital` não liberar CORS para `localhost`, requisições falharão com `network_error`. Solução: configurar proxy no `vite.config.ts` e alterar `VITE_API_BASE_URL` para `/api`. Ver [[auth-feature]] para instruções.
+- Toggle eye: ao mostrar senha, autocomplete pode interferir em alguns browsers. Aceitável.
+- Botão "Cadastre-se": `type="button"` explícito para não disparar submit. Rota de cadastro ainda não existe.
+- Logo PNG: se `public/bloxlab-logo.png` não existir em prod, `<img>` renderiza quebrado.
 
 ## Relacionado
 
+- [[auth-feature]] — AuthContext, useLogin, sessionStorage, TLoginResponse
 - [[project-setup]] — configuração técnica do projeto (Vite, Tailwind, shadcn)
-- [[ui-components]] — Button, Input, Card usados nesta tela
+- [[ui-components]] — Button, Input, Card, AlertModal usados nesta tela
 - [[coding-conventions]] — padrões de nomenclatura e estrutura
 - [[main-page]] — destino do redirect pós-login
 - [[navbar-component]] — layout pós-login (AppLayout + Navbar)

@@ -1,6 +1,6 @@
 ---
 title: Dead Code — TODOs Ativos no Código
-date: YYYY-MM-DD
+date: 2026-05-30
 tags:
   - reports
   - dead-code
@@ -9,10 +9,14 @@ tags:
 
 # TODOs Ativos no Código
 
-> **[COMO PREENCHER]**
-> Liste aqui todos os TODOs encontrados no código com contexto suficiente para retomar.
-> Formato: `arquivo:linha → [descrição do TODO]`
+---
+
+## 2026-05-30
+
+| Arquivo | Linha | TODO |
+|---------|-------|------|
+| `src/pages/UploadDocPage.tsx` | 37 | `// TODO: integração com backend` — `handleSubmit` só faz `console.log`; implementar chamada REST e hook `useUploadDoc` |
 
 ---
 
-Ver também: [[dead-code-audit]]
+Ver também: [[dead-code-audit]] | [[dead-code-audit-report]]

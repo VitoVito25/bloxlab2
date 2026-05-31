@@ -3,6 +3,13 @@ export interface TLoginForm {
   password: string
 }
 
+export interface TLoginResponse {
+  nomeUsuario: string
+  instituicao: string
+  jwtToken: string
+  access: string
+}
+
 export interface TRegisterForm {
   nome: string
   instituicao: string
